@@ -31,7 +31,7 @@ app.get("/api/hn", async (req, res) => {
 })
 
 
-app.get("/frontpage", async (req, res) => {
+app.get("/api/frontpage", async (req, res) => {
     res.send(await reddit.front());
 })
 
