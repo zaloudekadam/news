@@ -33,16 +33,19 @@
         background-color: #0c0c0c; /* Add a green color to the "active/current" link */
         color: white;
       }
+      .articleLink {
+        color: #0c0c0c;
+      }
     </style>
   </head>
 
   <body>
     <div id="container">
       <div class="vertical-menu">
-        <a href="https://news.zaloudekadam.com/">News</a>
-        <a href="https://news.zaloudekadam.com/tech">Tech</a>
-        <a href="https://news.zaloudekadam.com/hacker">Hacker News</a>
-        <a href="https://news.zaloudekadam.com/front" class="active">Reddit</a>
+        <a href="/">News</a>
+        <a href="/tech">Tech</a>
+        <a href="/hacker">Hacker News</a>
+        <a href="/front" class="active">Reddit</a>
       </div>
       <br />
       <br />
@@ -56,7 +59,7 @@
       let searchDiv = document.querySelector("#search");
 
       async function getGeneral() {
-        let respJSON = await (await fetch("/frontpage")).json();
+        let respJSON = await (await fetch("/api/frontpage")).json();
 
         generate(respJSON.data.children, generalDiv);
 
@@ -69,18 +72,18 @@
           console.log(data);
           let div = document.createElement("div");
 
+          let url = document.createElement("a");
+          url.href = data.url;
+          url.target = "_blank";
+          url.classList.add("articleLink");
           let title = document.createElement("h3");
           title.innerHTML = data.title;
-          div.appendChild(title);
+          url.appendChild(title);
+          div.appendChild(url);
 
           let subreddit = document.createElement("p");
           subreddit.innerHTML = data.subreddit;
           div.appendChild(subreddit);
-
-          let url = document.createElement("a");
-          url.href = data.url;
-          url.textContent = "link";
-          div.appendChild(url);
 
           let br = document.createElement("br");
           div.appendChild(br);

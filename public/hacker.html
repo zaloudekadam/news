@@ -33,18 +33,19 @@
         background-color: #0c0c0c; /* Add a green color to the "active/current" link */
         color: white;
       }
+      .articleLink {
+        color: #0c0c0c;
+      }
     </style>
   </head>
 
   <body>
     <div id="container">
       <div class="vertical-menu">
-        <a href="https://news.zaloudekadam.com/">News</a>
-        <a href="https://news.zaloudekadam.com/tech">Tech</a>
-        <a href="https://news.zaloudekadam.com/hacker" class="active"
-          >Hacker News</a
-        >
-        <a href="https://news.zaloudekadam.com/front">Reddit</a>
+        <a href="/">News</a>
+        <a href="/tech">Tech</a>
+        <a href="/hacker" class="active">Hacker News</a>
+        <a href="/front">Reddit</a>
       </div>
       <br />
       <br />
@@ -58,7 +59,7 @@
       let searchDiv = document.querySelector("#search");
 
       async function getGeneral() {
-        let respJSON = await (await fetch("/hn")).json();
+        let respJSON = await (await fetch("/api/hn")).json();
 
         generate(respJSON, generalDiv);
 
@@ -69,24 +70,24 @@
         for (art of articles) {
           let div = document.createElement("div");
 
+          let url = document.createElement("a");
+          url.href = art.url;
+          url.target = "_blank";
+          url.classList.add("articleLink");
           let title = document.createElement("h3");
           title.innerHTML = art.title;
-          div.appendChild(title);
+          url.appendChild(title);
+          div.appendChild(url);
 
           let score = document.createElement("p");
           score.innerHTML = art.score;
           div.appendChild(score);
 
-          let url = document.createElement("a");
-          url.href = art.url;
-          url.textContent = "link";
-          div.appendChild(url);
-
-          div.appendChild(document.createElement("br"));
-
           let hnUrl = document.createElement("a");
           hnUrl.href = `https://news.ycombinator.com/item?id=${art.id}`;
           hnUrl.textContent = "hn link";
+          hnUrl.target = "_blank";
+          hnUrl.classList.add("articleLink");
           div.appendChild(hnUrl);
 
           let date = document.createElement("p");

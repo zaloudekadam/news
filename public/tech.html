@@ -7,6 +7,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
     <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+
+    <title>news</title>
     <style>
       .vertical-menu {
         width: 200px;
@@ -31,43 +33,37 @@
         background-color: #0c0c0c; /* Add a green color to the "active/current" link */
         color: white;
       }
+      .articleLink {
+        color: #0c0c0c;
+      }
     </style>
-    <title>news</title>
   </head>
 
   <body>
     <div id="container">
       <div class="vertical-menu">
-        <a href="https://news.zaloudekadam.com/news" class="active">News</a>
-        <a href="https://news.zaloudekadam.com/tech">Tech</a>
-        <a href="https://news.zaloudekadam.com/hacker">Hacker News</a>
-        <a href="https://news.zaloudekadam.com/front">Reddit</a>
+        <a href="/">News</a>
+        <a href="/tech" class="active">Tech</a>
+        <a href="/hacker">Hacker News</a>
+        <a href="/front">Reddit</a>
       </div>
       <br />
       <br />
       <br />
       <button>search</button>
       <div id="search"></div>
-      <div id="cz"></div>
       <div id="general"></div>
     </div>
 
     <script>
       let generalDiv = document.querySelector("#general");
-      let czDiv = document.querySelector("#cz");
+
       let searchDiv = document.querySelector("#search");
 
       async function getGeneral() {
-        let respJSON = await (await fetch("/general")).json();
+        let respJSON = await (await fetch("/api/getTech")).json();
 
         generate(respJSON.articles, generalDiv);
-
-        return;
-      }
-      async function getCz() {
-        let respJSON = await (await fetch("/cz")).json();
-
-        generate(respJSON.articles, czDiv);
 
         return;
       }
@@ -86,36 +82,25 @@
         for (art of articles) {
           let div = document.createElement("div");
 
+          let url = document.createElement("a");
+          url.href = art.url;
+          url.target = "_blank";
+          url.classList.add("articleLink");
           let title = document.createElement("h3");
-
           title.innerHTML = art.title;
+          url.appendChild(title);
+          div.appendChild(url);
 
-          div.appendChild(title);
-
-          let source = document.createElement("h4");
-
+          let source = document.createElement("p");
           source.innerHTML = art.source.name;
-
           div.appendChild(source);
 
           let descr = document.createElement("p");
-
           descr.innerHTML = art.description;
-
           div.appendChild(descr);
 
-          let url = document.createElement("a");
-
-          url.href = art.url;
-
-          url.textContent = "link";
-
-          div.appendChild(url);
-
           let date = document.createElement("p");
-
           let dateString = new Date(art.publishedAt);
-
           date.innerHTML = `${dateString.getDate()}. ${
             dateString.getMonth() + 1
           }. ${dateString.getFullYear()}`;
@@ -132,12 +117,11 @@
 
       function clear() {
         generalDiv.innerHTML = "";
-        czDiv.innerHTML = "";
       }
 
       function init() {
         getGeneral();
-        getCz();
+
         document.querySelector("button").addEventListener("click", search);
       }
 

@@ -12,21 +12,21 @@ const news = require("./news");
 const hn = require("./hn");
 const reddit = require("./reddit");
 
-app.get("/general", async (req, res) => {
+app.get("/api/general", async (req, res) => {
     res.send(await news.general());
 })
-app.get("/cz", async (req, res) => {
+app.get("/api/cz", async (req, res) => {
     res.send(await news.cz())
 })
-app.get("/getTech", async (resq, res) => {
+app.get("/api/getTech", async (resq, res) => {
     res.send(await news.tech());
 })
 
-app.get("/search", async (req, res) => {
+app.get("/api/search", async (req, res) => {
     res.send(await news.search(req.query.q));
 })
 
-app.get("/hn", async (req, res) => {
+app.get("/api/hn", async (req, res) => {
     res.send(await hn.best());
 })
 
@@ -41,3 +41,83 @@ app.listen(port, () => {
     console.log(`listening at ${port}`);
 
 })
+
+
+
+
+
+/*
+{
+      "src": "/",
+
+      "methods": ["GET"],
+
+      "dest": "/public/general_news.html"
+    },
+    {
+      "src": "/tech",
+
+      "methods": ["GET"],
+
+      "dest": "/public/tech_news.html"
+    },
+    {
+      "src": "/hacker",
+
+      "methods": ["GET"],
+
+      "dest": "/public/hn.html"
+    },
+    {
+      "src": "/front",
+
+      "methods": ["GET"],
+
+      "dest": "/public/reddit.html"
+    },
+
+    {
+      "src": "/cz",
+
+      "dest": "/index.js",
+
+      "methods": ["GET"]
+    },
+
+    {
+      "src": "/getTech",
+
+      "dest": "/index.js",
+
+      "methods": ["GET"]
+    },
+
+    {
+      "src": "/general",
+
+      "dest": "/index.js",
+
+      "methods": ["GET"]
+    },
+    {
+      "src": "/hn",
+
+      "dest": "/index.js",
+
+      "methods": ["GET"]
+    },
+    {
+      "src": "/frontpage",
+
+      "dest": "/index.js",
+
+      "methods": ["GET"]
+    },
+
+    {
+      "src": "/search",
+
+      "dest": "/index.js",
+
+      "methods": ["GET"]
+    } */

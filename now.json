@@ -6,7 +6,6 @@
 
     {
       "src": "/public/*.html",
-
       "use": "@now/static"
     }
   ],
@@ -14,77 +13,15 @@
   "routes": [
     {
       "src": "/",
-
-      "methods": ["GET"],
-
-      "dest": "/public/general_news.html"
+      "dest": "/public/general.html"
     },
     {
-      "src": "/tech",
-
-      "methods": ["GET"],
-
-      "dest": "/public/tech_news.html"
+      "src": "/(.*)",
+      "dest": "/public/$1.html"
     },
     {
-      "src": "/hacker",
-
-      "methods": ["GET"],
-
-      "dest": "/public/hn.html"
-    },
-    {
-      "src": "/front",
-
-      "methods": ["GET"],
-
-      "dest": "/public/reddit.html"
-    },
-
-    {
-      "src": "/cz",
-
-      "dest": "/index.js",
-
-      "methods": ["GET"]
-    },
-
-    {
-      "src": "/getTech",
-
-      "dest": "/index.js",
-
-      "methods": ["GET"]
-    },
-
-    {
-      "src": "/general",
-
-      "dest": "/index.js",
-
-      "methods": ["GET"]
-    },
-    {
-      "src": "/hn",
-
-      "dest": "/index.js",
-
-      "methods": ["GET"]
-    },
-    {
-      "src": "/frontpage",
-
-      "dest": "/index.js",
-
-      "methods": ["GET"]
-    },
-
-    {
-      "src": "/search",
-
-      "dest": "/index.js",
-
-      "methods": ["GET"]
+      "src": "/api/(.*)",
+      "dest": "/index.js"
     }
   ]
 }
