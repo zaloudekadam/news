@@ -72,6 +72,20 @@
 
       "methods": ["GET"]
     },
+    {
+      "src": "/hn",
+
+      "dest": "/index.js",
+
+      "methods": ["GET"]
+    },
+    {
+      "src": "/frontpage",
+
+      "dest": "/index.js",
+
+      "methods": ["GET"]
+    },
 
     {
       "src": "/search",
