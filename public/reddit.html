@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+
+    <title>news</title>
+    <style>
+      .vertical-menu {
+        width: 200px;
+        /* Set a width if you like */
+        width: 100%;
+      }
+
+      .vertical-menu a {
+        float: left;
+        background-color: #eee; /* Grey background color */
+        color: black; /* Black text color */
+        display: block; /* Make the links appear below each other */
+        padding: 12px; /* Add some padding */
+        text-decoration: none; /* Remove underline from links */
+      }
+
+      .vertical-menu a:hover {
+        background-color: #ccc; /* Dark grey background on mouse-over */
+      }
+
+      .vertical-menu a.active {
+        background-color: #0c0c0c; /* Add a green color to the "active/current" link */
+        color: white;
+      }
+    </style>
+  </head>
+
+  <body>
+    <div id="container">
+      <div class="vertical-menu">
+        <a href="https://zaloudekadam.com/news">News</a>
+        <a href="https://zaloudekadam.com/tech">Tech</a>
+        <a href="https://zaloudekadam.com/hacker">Hacker News</a>
+        <a href="https://zaloudekadam.com/front" class="active">Reddit</a>
+      </div>
+      <br />
+      <br />
+      <br />
+      <div id="general"></div>
+    </div>
+
+    <script>
+      let generalDiv = document.querySelector("#general");
+
+      let searchDiv = document.querySelector("#search");
+
+      async function getGeneral() {
+        let respJSON = await (await fetch("/frontpage")).json();
+
+        generate(respJSON.data.children, generalDiv);
+
+        return;
+      }
+
+      function generate(articles, mainDiv) {
+        for (art of articles) {
+          const data = art.data;
+          console.log(data);
+          let div = document.createElement("div");
+
+          let title = document.createElement("h3");
+          title.innerHTML = data.title;
+          div.appendChild(title);
+
+          let subreddit = document.createElement("p");
+          subreddit.innerHTML = data.subreddit;
+          div.appendChild(subreddit);
+
+          let url = document.createElement("a");
+          url.href = data.url;
+          url.textContent = "link";
+          div.appendChild(url);
+
+          let br = document.createElement("br");
+          div.appendChild(br);
+
+          let score = document.createElement("p");
+          score.innerHTML = data.score;
+          div.appendChild(score);
+
+          let selftext = document.createElement("p");
+          selftext.innerHTML = data.selftext;
+          div.appendChild(selftext);
+
+          if (!data.over_18) {
+            let img = document.createElement("img");
+            img.src = data.url;
+            img.style.maxWidth = "300px";
+            div.appendChild(img);
+          } else {
+            let nsfw = document.createElement("p");
+            nsfw.innerHTML = "nsfw";
+            div.appendChild(nsfw);
+          }
+
+          mainDiv.appendChild(div);
+          mainDiv.appendChild(document.createElement("hr"));
+        }
+
+        mainDiv.appendChild(document.createElement("hr"));
+      }
+
+      function clear() {
+        generalDiv.innerHTML = "";
+      }
+
+      function init() {
+        getGeneral();
+      }
+
+      init();
+    </script>
+  </body>
+</html>

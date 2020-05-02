@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+
+    <title>news</title>
+    <style>
+      .vertical-menu {
+        width: 200px;
+        /* Set a width if you like */
+        width: 100%;
+      }
+
+      .vertical-menu a {
+        float: left;
+        background-color: #eee; /* Grey background color */
+        color: black; /* Black text color */
+        display: block; /* Make the links appear below each other */
+        padding: 12px; /* Add some padding */
+        text-decoration: none; /* Remove underline from links */
+      }
+
+      .vertical-menu a:hover {
+        background-color: #ccc; /* Dark grey background on mouse-over */
+      }
+
+      .vertical-menu a.active {
+        background-color: #0c0c0c; /* Add a green color to the "active/current" link */
+        color: white;
+      }
+    </style>
+  </head>
+
+  <body>
+    <div id="container">
+      <div class="vertical-menu">
+        <a href="https://zaloudekadam.com/news">News</a>
+        <a href="https://zaloudekadam.com/tech" class="active">Tech</a>
+        <a href="https://zaloudekadam.com/hacker">Hacker News</a>
+        <a href="https://zaloudekadam.com/front">Reddit</a>
+      </div>
+      <br />
+      <br />
+      <br />
+      <button>search</button>
+      <div id="search"></div>
+      <div id="general"></div>
+    </div>
+
+    <script>
+      let generalDiv = document.querySelector("#general");
+
+      let searchDiv = document.querySelector("#search");
+
+      async function getGeneral() {
+        let respJSON = await (await fetch("/getTech")).json();
+
+        generate(respJSON.articles, generalDiv);
+
+        return;
+      }
+
+      async function search() {
+        let q = prompt("search term");
+
+        let respJSON = await (await fetch("/search?q=" + q)).json();
+
+        clear();
+
+        generate(respJSON.articles, searchDiv);
+      }
+
+      function generate(articles, mainDiv) {
+        for (art of articles) {
+          let div = document.createElement("div");
+
+          let title = document.createElement("h3");
+
+          title.innerHTML = art.title;
+
+          div.appendChild(title);
+
+          let source = document.createElement("h4");
+
+          source.innerHTML = art.source.name;
+
+          div.appendChild(source);
+
+          let descr = document.createElement("p");
+
+          descr.innerHTML = art.description;
+
+          div.appendChild(descr);
+
+          let url = document.createElement("a");
+
+          url.href = art.url;
+
+          url.textContent = "link";
+
+          div.appendChild(url);
+
+          let date = document.createElement("p");
+
+          let dateString = new Date(art.publishedAt);
+
+          date.innerHTML = `${dateString.getDate()}. ${
+            dateString.getMonth() + 1
+          }. ${dateString.getFullYear()}`;
+
+          div.appendChild(date);
+
+          mainDiv.appendChild(div);
+
+          mainDiv.appendChild(document.createElement("hr"));
+        }
+
+        mainDiv.appendChild(document.createElement("hr"));
+      }
+
+      function clear() {
+        generalDiv.innerHTML = "";
+      }
+
+      function init() {
+        getGeneral();
+
+        document.querySelector("button").addEventListener("click", search);
+      }
+
+      init();
+    </script>
+  </body>
+</html>
