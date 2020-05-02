@@ -17,14 +17,6 @@
 
       "methods": ["GET"],
 
-      "dest": "/public/index.html"
-    },
-
-    {
-      "src": "/news",
-
-      "methods": ["GET"],
-
       "dest": "/public/general_news.html"
     },
     {
