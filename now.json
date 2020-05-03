@@ -20,6 +20,10 @@
       "dest": "/index.js"
     },
     {
+      "src": "/(.*).css",
+      "dest": "/public/$1.css"
+    },
+    {
       "src": "/(.*)",
       "dest": "/public/$1.html"
     }

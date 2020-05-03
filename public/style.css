@@ -1,0 +1,49 @@
+.m-item {
+  width: 20%;
+  text-align: center;
+  font-size: large;
+}
+
+.search-box {
+  line-height: 2em;
+  font-size: large;
+}
+
+#min-points {
+  line-height: 2em;
+  font-size: large;
+  width: 5%;
+  text-align: center;
+}
+#toggle-div {
+  display: flex;
+  align-items: center;
+}
+
+/*
+.vertical-menu {
+  width: 200px;
+  
+  width: 100%;
+}
+
+.vertical-menu a {
+  float: left;
+  background-color: #eee; 
+  color: black; 
+  display: block; 
+  padding: 12px; 
+  text-decoration: none; 
+}
+
+.vertical-menu a:hover {
+  background-color: #ccc; 
+}
+
+.vertical-menu a.active {
+  background-color: #0c0c0c; 
+  color: white;
+}
+.articleLink {
+  color: #0c0c0c;
+}*/

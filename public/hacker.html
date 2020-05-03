@@ -7,50 +7,30 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
     <meta http-equiv="X-UA-Compatible" content="ie=edge" />
-
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/@ajusa/lit@latest/dist/lit.css"
+    />
+    <link rel="stylesheet" href="/style.css" />
     <title>news</title>
-    <style>
-      .vertical-menu {
-        width: 200px;
-        /* Set a width if you like */
-        width: 100%;
-      }
-
-      .vertical-menu a {
-        float: left;
-        background-color: #eee; /* Grey background color */
-        color: black; /* Black text color */
-        display: block; /* Make the links appear below each other */
-        padding: 12px; /* Add some padding */
-        text-decoration: none; /* Remove underline from links */
-      }
-
-      .vertical-menu a:hover {
-        background-color: #ccc; /* Dark grey background on mouse-over */
-      }
-
-      .vertical-menu a.active {
-        background-color: #0c0c0c; /* Add a green color to the "active/current" link */
-        color: white;
-      }
-      .articleLink {
-        color: #0c0c0c;
-      }
-    </style>
   </head>
 
   <body>
-    <div id="container">
-      <div class="vertical-menu">
-        <a href="/">News</a>
-        <a href="/tech">Tech</a>
-        <a href="/hacker" class="active">Hacker News</a>
-        <a href="/front">Reddit</a>
+    <div class="c">
+      <div class="row card">
+        <div class="col m-item"><a href="/news">News</a></div>
+        <div class="col m-item"><a href="/tech">Tech</a></div>
+        <b class="col m-item"><a href="/hacker">Hacker News</a></b>
+        <div class="col m-item"><a href="/front">Reddit</a></div>
       </div>
-      <br />
-      <br />
-      <br />
-      <button id="toggle">switch to <span id="mode"></span></button>
+
+      <div id="toggle-div">
+        <button id="toggle" class="btn">
+          switch to <span id="mode"></span>
+        </button>
+        &nbsp;
+        <input type="text" value="50" id="min-points" />
+      </div>
       <div id="general"></div>
       <div id="new"></div>
     </div>
@@ -70,7 +50,8 @@
       }
 
       async function getNew() {
-        let p = prompt("min score", 50);
+        let p = document.querySelector("#min-points").value;
+        console.log(p);
         let respJSON = await (await fetch("/api/hnnew?p=" + p)).json();
 
         generate(respJSON, newDiv);
@@ -105,9 +86,9 @@
 
             let date = document.createElement("p");
             let dateString = new Date(art.time * 1000);
-            date.innerHTML = `${dateString.getDate()}. ${
+            date.innerHTML = `[${dateString.getDate()}. ${
               dateString.getMonth() + 1
-            }. ${dateString.getFullYear()}`;
+            }. ${dateString.getFullYear()}]`;
 
             div.appendChild(date);
 
@@ -132,11 +113,13 @@
             newDiv.style.display = "block";
             getNew();
             document.querySelector("#mode").innerHTML = "best";
+            document.querySelector("#min-points").style.display = "none";
           } else {
             generalDiv.style.display = "block";
             newDiv.style.display = "none";
             getBest();
             document.querySelector("#mode").innerHTML = "new";
+            document.querySelector("#min-points").style.display = "";
           }
         });
       }
