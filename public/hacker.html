@@ -50,68 +50,95 @@
       <br />
       <br />
       <br />
+      <button id="toggle">switch to <span id="mode"></span></button>
       <div id="general"></div>
+      <div id="new"></div>
     </div>
 
     <script>
       let generalDiv = document.querySelector("#general");
 
       let searchDiv = document.querySelector("#search");
+      let newDiv = document.querySelector("#new");
 
-      async function getGeneral() {
-        let respJSON = await (await fetch("/api/hn")).json();
+      async function getBest() {
+        let respJSON = await (await fetch("/api/hnbest")).json();
 
         generate(respJSON, generalDiv);
 
         return;
       }
 
+      async function getNew() {
+        let p = prompt("min score", 50);
+        let respJSON = await (await fetch("/api/hnnew?p=" + p)).json();
+
+        generate(respJSON, newDiv);
+
+        return;
+      }
+
       function generate(articles, mainDiv) {
         for (art of articles) {
-          let div = document.createElement("div");
+          if (art) {
+            let div = document.createElement("div");
 
-          let url = document.createElement("a");
-          url.href = art.url;
-          url.target = "_blank";
-          url.classList.add("articleLink");
-          let title = document.createElement("h3");
-          title.innerHTML = art.title;
-          url.appendChild(title);
-          div.appendChild(url);
+            let url = document.createElement("a");
+            url.href = art.url;
+            url.target = "_blank";
+            url.classList.add("articleLink");
+            let title = document.createElement("h3");
+            title.innerHTML = art.title;
+            url.appendChild(title);
+            div.appendChild(url);
 
-          let score = document.createElement("p");
-          score.innerHTML = art.score;
-          div.appendChild(score);
+            let score = document.createElement("p");
+            score.innerHTML = art.score;
+            div.appendChild(score);
 
-          let hnUrl = document.createElement("a");
-          hnUrl.href = `https://news.ycombinator.com/item?id=${art.id}`;
-          hnUrl.textContent = "hn link";
-          hnUrl.target = "_blank";
-          hnUrl.classList.add("articleLink");
-          div.appendChild(hnUrl);
+            let hnUrl = document.createElement("a");
+            hnUrl.href = `https://news.ycombinator.com/item?id=${art.id}`;
+            hnUrl.textContent = "hn link";
+            hnUrl.target = "_blank";
+            hnUrl.classList.add("articleLink");
+            div.appendChild(hnUrl);
 
-          let date = document.createElement("p");
-          let dateString = new Date(art.time * 1000);
-          date.innerHTML = `${dateString.getDate()}. ${
-            dateString.getMonth() + 1
-          }. ${dateString.getFullYear()}`;
+            let date = document.createElement("p");
+            let dateString = new Date(art.time * 1000);
+            date.innerHTML = `${dateString.getDate()}. ${
+              dateString.getMonth() + 1
+            }. ${dateString.getFullYear()}`;
 
-          div.appendChild(date);
+            div.appendChild(date);
 
-          mainDiv.appendChild(div);
+            mainDiv.appendChild(div);
 
-          mainDiv.appendChild(document.createElement("hr"));
+            mainDiv.appendChild(document.createElement("hr"));
+          }
         }
 
         mainDiv.appendChild(document.createElement("hr"));
       }
 
-      function clear() {
-        generalDiv.innerHTML = "";
-      }
-
       function init() {
-        getGeneral();
+        getBest();
+        //getNew();
+
+        newDiv.style.display = "none";
+        document.querySelector("#mode").innerHTML = "new";
+        document.querySelector("#toggle").addEventListener("click", () => {
+          if (newDiv.style.display == "none") {
+            generalDiv.style.display = "none";
+            newDiv.style.display = "block";
+            getNew();
+            document.querySelector("#mode").innerHTML = "best";
+          } else {
+            generalDiv.style.display = "block";
+            newDiv.style.display = "none";
+            getBest();
+            document.querySelector("#mode").innerHTML = "new";
+          }
+        });
       }
 
       init();

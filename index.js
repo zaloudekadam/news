@@ -13,32 +13,38 @@ const hn = require("./hn");
 const reddit = require("./reddit");
 
 app.get("/api/general", async (req, res) => {
-    res.send(await news.general());
+  res.send(await news.general());
 })
 app.get("/api/cz", async (req, res) => {
-    res.send(await news.cz())
+  res.send(await news.cz())
 })
 app.get("/api/getTech", async (resq, res) => {
-    res.send(await news.tech());
+  res.send(await news.tech());
 })
 
 app.get("/api/search", async (req, res) => {
-    res.send(await news.search(req.query.q));
+  res.send(await news.search(req.query.q));
 })
 
-app.get("/api/hn", async (req, res) => {
-    res.send(await hn.best());
+app.get("/api/hnbest", async (req, res) => {
+  res.send(await hn.best());
+})
+
+app.get("/api/hnnew", async (req, res) => {
+  //console.log('+req.query.p', req.query.p);
+
+  res.send(await hn.new(+req.query.p));
 })
 
 
 app.get("/api/frontpage", async (req, res) => {
-    res.send(await reddit.front());
+  res.send(await reddit.front());
 })
 
 
 app.listen(port, () => {
 
-    console.log(`listening at ${port}`);
+  console.log(`listening at ${port}`);
 
 })
 

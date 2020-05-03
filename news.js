@@ -1,5 +1,6 @@
 const NewsAPI = require('newsapi');
 //const api = new NewsAPI("47149f57ab3a4a8fb8fc3fbc6533e2d7");
+require('dotenv').config()
 const api = new NewsAPI(process.env.TOKEN);
 
 module.exports = {
