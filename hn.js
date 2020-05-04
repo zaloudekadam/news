@@ -35,16 +35,18 @@ module.exports = {
         const resultPromises = body.map(async id => {
             const itemResponse = await fetch(`https://hacker-news.firebaseio.com/v0/item/${id}.json?print=pretty`)
             const itemBody = await itemResponse.json();
-            if (itemBody.score >= p) {
-
-                return {
-                    id: itemBody.id,
-                    by: itemBody.by,
-                    score: itemBody.score,
-                    title: itemBody.title,
-                    url: itemBody.url,
-                    time: itemBody.time,
-                    type: itemBody.type
+            if (itemBody) {
+                if (itemBody.score >= p) {
+                    //console.log('itemBody', itemBody);
+                    return {
+                        id: itemBody.id,
+                        by: itemBody.by,
+                        score: itemBody.score,
+                        title: itemBody.title,
+                        url: itemBody.url,
+                        time: itemBody.time,
+                        type: itemBody.type
+                    }
                 }
             }
 
